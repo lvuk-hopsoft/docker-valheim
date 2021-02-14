@@ -5,7 +5,7 @@ RUN apt-get update && \
 	rm -rf /var/lib/apt/lists/*
 
 
-RUN mkdir -p /home/valheim/data/ && mkdir -p /home/valheim/scripts/ && ulimit -n 2048
+RUN mkdir -p /home/valheim/data/ && ulimit -n 2048
 
 WORKDIR /home/valheim
 
@@ -14,17 +14,14 @@ ADD start-server.sh /home/valheim/start-server.sh
 
 RUN chmod +x /home/valheim/entrypoint.sh && chmod +x /home/valheim/start-server.sh
 
-EXPOSE 2456/udp
-EXPOSE 2456/tcp
-EXPOSE 2457/udp
-EXPOSE 2457/tcp
-EXPOSE 2458/udp
-EXPOSE 2458/tcp
-
 ENV SERVER_NAME="Valheim Server"
-ENV SERVER_PASSWORD=""
+ENV SERVER_PASSWORD="654321"
 ENV SERVER_WORLD="World"
-ENV SERVER_PORT=2456
+ENV SERVER_PORT=22456
+ENV SAVE_DIR="/home/valheim/saves"
+
+VOLUME /home/valheim/data
+VOLUME /home/valheim/saves
 
 ENTRYPOINT  ["/bin/sh", "entrypoint.sh"]
 
